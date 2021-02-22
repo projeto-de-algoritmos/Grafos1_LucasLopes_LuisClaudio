@@ -21,4 +21,14 @@ export const DivGraphs = styled.div`
     border: solid 1px black;
 
   }
+  .links line {
+  stroke: #999;
+  stroke-opacity: 0.6;
+}
+
+.nodes circle {
+  stroke: #fff;
+  stroke-width: 2px;
+}
+  
 `;
