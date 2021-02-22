@@ -1,5 +1,5 @@
-insert into pet values (1, 12,'M','image1.jpg','Negão', 0, 'Cane corso');
-insert into pet values (2, 11,'F','image2.jpg','Neguinha', 0, 'Cane corso');
+insert into pet values (1, 12,'M','image1.jpg','Negão', 1, 'Cane corso');
+insert into pet values (2, 11,'F','image2.jpg','Neguinha', 2, 'Cane corso');
 insert into pet values (3, 9,'F','image2.jpg','Nina', 2, 'Cane corso');
 insert into pet values (4, 9,'F','image2.jpg','Nila', 2, 'Cane corso');
 insert into pet values (5, 9,'M','image1.jpg','Nino', 2, 'Cane corso');
