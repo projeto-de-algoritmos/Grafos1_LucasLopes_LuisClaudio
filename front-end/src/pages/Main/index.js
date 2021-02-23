@@ -1,39 +1,181 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {DivGraphs } from './styles';
 import * as d3 from 'd3';
 
-var width = window.innerWidth/1.5;
-var height = window.innerHeight/1.5;
+import api from '../../services/api';
+import { randomBates } from 'd3';
+
+var width = window.innerWidth/1.1;
+var height = window.innerHeight/1.2;
 
 export default function Main() {
+
   const [nodes, setNodes] = useState([
-    {id: 0, name: "A"},
-    {id: 1, name: "B"},
-    {id: 2, name: "C"},
-    {id: 3, name: "D"},
-    {id: 4, name: "E"},
-    {id: 5, name: "F"},
-    {id: 6, name: "G"},
-    {id: 7, name: "H"},
-    {id: 8, name: "I"},
-    {id: 9, name: "J"},
-    {id: 10, name: "L"},
-    {id: 11, name: "M"},
-  ]);
-      
-  const [links, setLinks] = useState([
-    {source: 0, target: 1},
-    {source: 1, target: 2},
-    {source: 2, target: 3},
-    {source: 3, target: 0},
-    {source: 0, target: 8},
-    // {source: 3, target: 7},
-    // {source: 4, target: 5},
-    // {source: 4, target: 7}
+    {
+      "id": 1,
+      "name": "Negão",
+      "age": 12,
+      "gender": "M",
+      "race": "Cane corso",
+      "imageName": "image1.jpg",
+      "parentId": 1
+    },
+    {
+      "id": 2,
+      "name": "Neguinha",
+      "age": 11,
+      "gender": "F",
+      "race": "Cane corso",
+      "imageName": "image2.jpg",
+      "parentId": 2
+    },
+    {
+      "id": 3,
+      "name": "Nina",
+      "age": 9,
+      "gender": "F",
+      "race": "Cane corso",
+      "imageName": "image2.jpg",
+      "parentId": 2
+    },
+    {
+      "id": 4,
+      "name": "Nila",
+      "age": 9,
+      "gender": "F",
+      "race": "Cane corso",
+      "imageName": "image2.jpg",
+      "parentId": 2
+    },
+    {
+      "id": 5,
+      "name": "Nino",
+      "age": 9,
+      "gender": "M",
+      "race": "Cane corso",
+      "imageName": "image1.jpg",
+      "parentId": 2
+    },
+    {
+      "id": 6,
+      "name": "Boo",
+      "age": 6,
+      "gender": "M",
+      "race": "Cane corso",
+      "imageName": "image1.jpg",
+      "parentId": 3
+    },
+    {
+      "id": 7,
+      "name": "Scooby",
+      "age": 6,
+      "gender": "M",
+      "race": "Cane corso",
+      "imageName": "image1.jpg",
+      "parentId": 3
+    },
+    {
+      "id": 8,
+      "name": "Clifford",
+      "age": 6,
+      "gender": "M",
+      "race": "Cane corso",
+      "imageName": "image1.jpg",
+      "parentId": 3
+    },
+    {
+      "id": 9,
+      "name": "Laika",
+      "age": 6,
+      "gender": "F",
+      "race": "Cane corso",
+      "imageName": "image2.jpg",
+      "parentId": 4
+    },
+    {
+      "id": 10,
+      "name": "Nhoque ",
+      "age": 2,
+      "gender": "M",
+      "race": "Cane corso",
+      "imageName": "image1.jpg",
+      "parentId": 9
+    },
+    {
+      "id": 11,
+      "name": "Quindim",
+      "age": 2,
+      "gender": "M",
+      "race": "Cane corso",
+      "imageName": "image1.jpg",
+      "parentId": 9
+    },
+    {
+      "id": 12,
+      "name": "Panqueca",
+      "age": 2,
+      "gender": "F",
+      "race": "Cane corso",
+      "imageName": "image2.jpg",
+      "parentId": 9
+    },
+    {
+      "id": 13,
+      "name": "Paçoca",
+      "age": 2,
+      "gender": "F",
+      "race": "Cane corso",
+      "imageName": "image2.jpg",
+      "parentId": 9
+    },
+    {
+      "id": 14,
+      "name": "Bisteca",
+      "age": 2,
+      "gender": "F",
+      "race": "Cane corso",
+      "imageName": "image2.jpg",
+      "parentId": 9
+    },
+    {
+      "id": 15,
+      "name": "Torresmo ",
+      "age": 2,
+      "gender": "M",
+      "race": "Cane corso",
+      "imageName": "image1.jpg",
+      "parentId": 9
+    }
   ]);
 
+  // const [nodes, setNodes] = useState( async () => {
+  //   const response = await api.get('pets');
+  //   console.log(response);
+  //   return response;
+  // });
+
+  const [links, setLinks] = useState(() => {
+    var linkss = [];
+    nodes.map((value, index) => {
+         linkss.push({ source: value.parentId, target: value.id })
+         console.log(linkss)
+      });
+    return linkss;
+  });
+
+    const makeConnections = useCallback( async () => {
+      var linkss = [];
+      nodes.map((value, index) => {
+           linkss.push({ source: value.parentId, target: value.id })
+           console.log(linkss)
+        });
+        setLinks(linkss);
+  }, [])
+
   useEffect(() => {
-      
+    // loadNodes();
+    makeConnections();  
+
     var svg =  d3.select("#my_dataviz")
       .append("svg")
       .attr("width", width)
@@ -41,7 +183,6 @@ export default function Main() {
       width = +svg.attr("width"),
       height = +svg.attr("height");
     var toggle = 0;
-    // var color = d3.scaleOrdinal(d3.schemeCategory20);
     
     var simulation = d3.forceSimulation()
       .force("link", d3.forceLink().id(function(d) {
@@ -49,9 +190,6 @@ export default function Main() {
       }))
       .force("charge", d3.forceManyBody())
       .force("center", d3.forceCenter(width / 2, height / 2));
-    
-    // var stuff = document.getElementById('mis').innerHTML;
-    // var graph = JSON.parse(stuff);
     
     svg.append("rect")
       .attr("width", width)
@@ -77,19 +215,15 @@ export default function Main() {
       .data(nodes)
       .enter()
       .append("circle")
-      .attr("r", 25)
-      .style("fill", "#3b51bf")
-      .attr("stroke", "black")
+      .attr("r", 35)
+      .style("fill", "#b3b3b3")
       .style("stroke-width", 4)
-
-      .style("stroke", "black")
+      .style("stroke", d => d.gender === "M"  ? "blue" : "red")
       .call(d3.drag()
         .on("start", dragstarted)
         .on("drag", dragged)
         .on("end", dragended))
       .on('dblclick', connectedNodes);
-    
-    node.append("svg:title", "fsdfds").text(function(d) { return d.id + '\n' + 'aaa' ; });
     
     var label = svg.append("g")
     .selectAll(".mytext")
@@ -98,17 +232,16 @@ export default function Main() {
     .append("text")
       .text(function (d) { return d.name; })
       .style("text-anchor", "middle")
-      .style("fill", "red")
+      .style("fill", d => d.gender === "M"  ? "blue" : "red")
       .style("font-family", "Arial")
       .style("font-size", 12);
-
 
     simulation
       .nodes(nodes)
       .on("tick", ticked);
     
     simulation.force("link")
-      .links(links).distance(150);
+      .links(links).distance(400)
     
     function zoomed(event) {
       node.attr("transform", event.transform);
@@ -131,14 +264,6 @@ export default function Main() {
       .attr("x", d => d.x)
       .attr("y", d => d.y + 4);
     }
-    
-    var linkedByIndex = {};
-    for (var i = 0; i < nodes.length; i++) {
-        linkedByIndex[i + "," + i] = 1;
-    };
-    links.forEach(function (d) {
-        linkedByIndex[d.source.index + "," + d.target.index] = 1;
-    });
     
     function neighboring(a, b) {
         return linkedByIndex[a.index + "," + b.index];
