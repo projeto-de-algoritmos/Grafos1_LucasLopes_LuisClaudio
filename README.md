@@ -6,7 +6,7 @@
 ## java 11, maven
 
 ### Para executar
-" ./mvnw spring-boot:run"
+" cd back-end/pet-tinder && ./mvnw spring-boot:run"
 
 ### Swagger
 " http://localhost:8080/swagger-ui.html" 
@@ -18,7 +18,7 @@
 ## Node 14 e NPM
 
 ### Para instalar
-" yarn"
+" cd front-end/ && yarn"
 
 ### Para executar
 " yarn start"
