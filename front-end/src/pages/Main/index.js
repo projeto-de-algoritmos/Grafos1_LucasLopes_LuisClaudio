@@ -7,9 +7,9 @@ import { randomBates } from 'd3';
 
 var width = window.innerWidth/1.1;
 var height = window.innerHeight/1.2;
-
+// JVBERi0xLjcKCjEgMCBvYmogICUgZW50cnkgcG9pbnQKPDwKICAvVHlwZSAvQ2F0YWxvZwogIC9QYWdlcyAyIDAgUgo+PgplbmRvYmoKCjIgMCBvYmoKPDwKICAvVHlwZSAvUGFnZXMKICAvTWVkaWFCb3ggWyAwIDAgMjAwIDIwMCBdCiAgL0NvdW50IDEKICAvS2lkcyBbIDMgMCBSIF0KPj4KZW5kb2JqCgozIDAgb2JqCjw8CiAgL1R5cGUgL1BhZ2UKICAvUGFyZW50IDIgMCBSCiAgL1Jlc291cmNlcyA8PAogICAgL0ZvbnQgPDwKICAgICAgL0YxIDQgMCBSIAogICAgPj4KICAPgogIC9Db250ZW50cyA1IDAgUgo+PgplbmRvYmoKCjQgMCBvYmoKPDwKICAvVHlwZSAvRm9udAogIC9TdWJ0eXBlIC9UeXBlMQogIC9CYXNlRm9udCAvVGltZXMtUm9tYW4KPj4KZW5kb2JqCgo1IDAgb2JqICAlIHBhZ2UgY29udGVudAo8PAogIC9MZW5ndGggNDQKPj4Kc3RyZWFtCkJUCjcwIDUwIFRECi9GMSAxMiBUZgooSGVsbG8sIHdvcmxkISkgVGoKRVQKZW5kc3RyZWFtCmVuZG9iagoKeHJlZgowIDYKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDEwIDAwMDAwIG4gCjAwMDAwMDAwNzkgMDAwMDAgbiAKMDAwMDAwMDE3MyAwMDAwMCBuIAowMDAwMDAwMzAxIDAwMDAwIG4gCjAwMDAwMDAzODAgMDAwMDAgbiAKdHJhaWxlcgo8PAogIC9TaXplIDYKICAvUm9vdCAxIDAgUgo+PgpzdGFydHhyZWYKNDkyCiUlRU9G'
 export default function Main() {
-
+  const [pdf, setPdf] = useState()
   const [nodes, setNodes] = useState([
     {
       "id": 1,
@@ -206,6 +206,7 @@ export default function Main() {
       .data(links)
       .enter().append("line")
       .style("stroke-width", '3px')
+      // .style("stroke", "black")
       .style("stroke", "#999")
       .style("fill-opacity", 0.6)
     
@@ -216,14 +217,20 @@ export default function Main() {
       .enter()
       .append("circle")
       .attr("r", 35)
-      .style("fill", "#b3b3b3")
-      .style("stroke-width", 4)
-      .style("stroke", d => d.gender === "M"  ? "blue" : "red")
+      // .style("fill", "#b3b3b3")
+      .style("fill", d => d.gender === "M"  ? "#5E6BE3" : "#E786D7")
+      
+      .style("stroke-width", 3)
+      .style("stroke", d => "black")
+      
+      // .style("stroke", d => "#999")
+      // .style("stroke", d => d.gender === "M"  ? "#5E6BE3" : "#E786D7")
       .call(d3.drag()
         .on("start", dragstarted)
         .on("drag", dragged)
         .on("end", dragended))
-      .on('dblclick', connectedNodes);
+
+      // .on('dblclick', connectedNodes);
     
     var label = svg.append("g")
     .selectAll(".mytext")
@@ -232,8 +239,10 @@ export default function Main() {
     .append("text")
       .text(function (d) { return d.name; })
       .style("text-anchor", "middle")
-      .style("fill", d => d.gender === "M"  ? "blue" : "red")
+      .style("fill", d => d.gender === "M"  ? "white" : "white")
+      // .style("fill", d => d.gender === "M"  ? "#5E6BE3" : "#E786D7")
       .style("font-family", "Arial")
+      .style("font-weight", "bold")
       .style("font-size", 12);
 
     simulation
@@ -265,22 +274,22 @@ export default function Main() {
       .attr("y", d => d.y + 4);
     }
     
-    function neighboring(a, b) {
-        return linkedByIndex[a.index + "," + b.index];
-    }
+    // function neighboring(a, b) {
+    //     return linkedByIndex[a.index + "," + b.index];
+    // }
     
-    function connectedNodes() {
-        if (toggle == 0) {
-            var d = d3.select(this).node().__data__;
-            node.style("opacity", function (o) {
-                return neighboring(d, o) | neighboring(o, d) ? 1 : 0.15;
-            });
-            toggle = 1;
-        } else {
-            node.style("opacity", 1);
-            toggle = 0;
-        }
-    }
+    // function connectedNodes() {
+    //     if (toggle == 0) {
+    //         var d = d3.select(this).node().__data__;
+    //         node.style("opacity", function (o) {
+    //             return neighboring(d, o) | neighboring(o, d) ? 1 : 0.15;
+    //         });
+    //         toggle = 1;
+    //     } else {
+    //         node.style("opacity", 1);
+    //         toggle = 0;
+    //     }
+    // }
           function dragstarted(event, d) {
             if (!event.active) simulation.alphaTarget(.03).restart();
             d.fx = d.x;
@@ -299,11 +308,9 @@ export default function Main() {
   }, [nodes])
 
   return (
-    
     <DivGraphs>
       <h1>Grafos</h1>
       <div id="my_dataviz"></div>
-      {/* <Graph/> */}
     </DivGraphs>
   );
 }

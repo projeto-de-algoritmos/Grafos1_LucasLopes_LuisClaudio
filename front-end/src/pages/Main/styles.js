@@ -18,17 +18,18 @@ export const DivGraphs = styled.div`
 
     align-items: center;
     justify-content: center;    
-    border: solid 1px black;
+    border: solid 3px black;
+    border-radius: 5px;
 
   }
   .links line {
-  stroke: #999;
-  stroke-opacity: 0.6;
-}
+    stroke: #999;
+    stroke-opacity: 0.6;
+  }
 
-.nodes circle {
-  stroke: #fff;
-  stroke-width: 2px;
-}
+  .nodes circle {
+    stroke: #fff;
+    stroke-width: 2px;
+  }
   
 `;
